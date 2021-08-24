@@ -8,3 +8,28 @@ TERMUX_PKG_SHA256=59c8889189808cfcd42cf49bea42589c82a45e462029bfc7c17824d955f75d
 TERMUX_PKG_DEPENDS="qt5-qtbase, qt5-qtsvg, qt5-qtx11extras, libx11"
 TERMUX_PKG_BUILD_DEPENDS="qt5-qtbase-cross-tools, qt5-qttools-cross-tools"
 
+termux_step_pre_configure(){
+	mkdir -p ${TERMUX_PREFIX}/libexec/qt/platformthemes
+	mkdir -p ${TERMUX_PREFIX}/libexec/qt/styles
+	mkdir -p ${TERMUX_PREFIX}/share/applications
+	mkdir -p ${TERMUX_PREFIX}/share/qt5ct/colors
+	mkdir -p ${TERMUX_PREFIX}/share/qt5ct/qss
+	}
+	
+termux_step_configure(){
+	cd ${TERMUX_PKG_SRCDIR}
+	qmake PREFIX=${TERMUX_PREFIX} .
+	}
+	
+termux_step_make(){
+	make
+	}
+	
+termux_step_make_install(){
+	cp -rf ./src/qt5ct-qtplugin/libqt5ct.so ${TERMUX_PREFIX}/libexec/qt/platformthemes/libqt5ct.so
+	cp -rr ./src/qt5ct-style/libqt5ct-style.so ${TERMUX_PREFIX}/libexec/qt/styles/libqt5ct-style.so
+	cp -rf ./src/qt5ct/qt5ct ${TERMUX_PREFIX}/bin/qt5ct
+	cp -rf ./src/qt5ct/qt5ct.desktop ${TERMUX_PREFIX}/share/applications/qt5ct.desktop
+	cp -rf ./qss/* ${TERMUX_PREFIX}/share/qt5ct/qss/
+	cp -rf ./colors/* ${TERMUX_PREFIX}/share/qt5ct/colors/
+	}
