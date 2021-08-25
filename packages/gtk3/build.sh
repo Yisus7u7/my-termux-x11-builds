@@ -14,7 +14,7 @@ TERMUX_PKG_CONFLICTS="libgtk3"
 TERMUX_PKG_REPLACES="libgtk3"
 
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
---enable-introspection
+--disable-introspection
 --enable-xinerama
 --enable-xfixes
 --enable-xcomposite
