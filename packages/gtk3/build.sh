@@ -8,13 +8,13 @@ TERMUX_PKG_SRCURL=https://gitlab.gnome.org/GNOME/gtk/-/archive/$TERMUX_PKG_VERSI
 TERMUX_PKG_SHA256=55de8ae3233c9bc97d3d00fad9c53d18192624baaffa210679afec209333ab12
 TERMUX_PKG_BUILD_IN_SRC=true
 
-TERMUX_PKG_DEPENDS="adwaita-icon-theme, atk, coreutils, desktop-file-utils, gdk-pixbuf, glib, glib-bin, gtk-update-icon-cache, libcairo, libepoxy, libxcomposite, libxcursor, libxdamage, libxfixes, libxi, libxinerama, libxrandr, pango, shared-mime-info, ttf-dejavu"
+TERMUX_PKG_DEPENDS="adwaita-icon-theme, atk, coreutils, desktop-file-utils, gdk-pixbuf, glib, glib-bin, gtk-update-icon-cache, libcairo, libepoxy, libxcomposite, libxcursor, libxdamage, libxfixes, libxi, libxinerama, libxrandr, pango, shared-mime-info, ttf-dejavu, gobject-introspection"
 TERMUX_PKG_BUILD_DEPENDS="xorgproto"
 TERMUX_PKG_CONFLICTS="libgtk3"
 TERMUX_PKG_REPLACES="libgtk3"
 
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
---disable-introspection
+--enable-introspection
 --enable-xinerama
 --enable-xfixes
 --enable-xcomposite
