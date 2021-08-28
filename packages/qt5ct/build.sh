@@ -18,8 +18,8 @@ termux_step_pre_configure(){
 	}
 	
 termux_step_configure(){
-	cd ${TERMUX_PKG_SRCDIR}
-	"${TERMUX_PREFIX}/opt/qt/cross/bin/qmake" ..
+    "${TERMUX_PREFIX}/opt/qt/cross/bin/qmake" \
+        -spec "${TERMUX_PREFIX}/lib/qt/mkspecs/termux-cross"
 	}
 	
 termux_step_make(){
