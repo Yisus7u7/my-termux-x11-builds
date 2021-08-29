@@ -8,7 +8,7 @@ TERMUX_PKG_REVISION=34
 TERMUX_PKG_SRCURL=https://mesa.freedesktop.org/archive/older-versions/${TERMUX_PKG_VERSION:0:2}.x/mesa-$TERMUX_PKG_VERSION.tar.xz
 TERMUX_PKG_SHA256=c5beb5fc05f0e0c294fefe1a393ee118cb67e27a4dca417d77c297f7d4b6e479
 
-TERMUX_PKG_DEPENDS="libandroid-shmem, libexpat, libdrm, libx11, libxdamage, libxext, libxml2, libxshmfence, zlib"
+TERMUX_PKG_DEPENDS="libandroid-shmem, libexpat, libdrm, libx11, libxdamage, libxext, libxml2, libxshmfence, zlib, libwayland, libwayland-protocols"
 TERMUX_PKG_BUILD_DEPENDS="xorgproto"
 TERMUX_PKG_CONFLICTS="libmesa"
 TERMUX_PKG_REPLACES="libmesa"
@@ -24,7 +24,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 --disable-dri3
 --disable-llvm
 --enable-glx=xlib
---with-platforms=x11
+--with-platforms=x11 wayland
 --without-dri-drivers
 --without-gallium-drivers
 ac_cv_header_xlocale_h=no
