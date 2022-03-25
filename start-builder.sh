@@ -2,8 +2,6 @@
 ##
 ##  Script for preparing & launching build environment.
 ##
-##  Copyright 2019-2020 Leonid Pliushch <leonid.pliushch@gmail.com>
-##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
 ##  you may not use this file except in compliance with the License.
 ##  You may obtain a copy of the License at
@@ -73,7 +71,7 @@ fi
 			--detach \
 			--name "$CONTAINER_NAME" \
 			--volume "${REPOROOT}/${BUILD_ENVIRONMENT}:/home/builder/termux-packages" \
-			--volume "${REPOROOT}/debs:/home/builder/termux-packages/debs" \
+			--volume "${REPOROOT}/output:/home/builder/termux-packages/output" \
 			--workdir "/home/builder/termux-packages" \
 			"$IMAGE_NAME"
 

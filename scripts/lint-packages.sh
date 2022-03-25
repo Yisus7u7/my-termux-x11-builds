@@ -2,8 +2,6 @@
 ##
 ##  Script for performing basic sanity checks of package's build.sh.
 ##
-##  Copyright 2019-2020 Leonid Pliushch <leonid.pliushch@gmail.com>
-##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
 ##  you may not use this file except in compliance with the License.
 ##  You may obtain a copy of the License at
@@ -121,7 +119,11 @@ lint_package() {
 
 		echo -n "TERMUX_PKG_VERSION: "
 		if [ -n "$TERMUX_PKG_VERSION" ]; then
-			echo "PASS"
+			if grep -qiP '^[0-9][0-9a-z+\-\.]*' <<< "$TERMUX_PKG_VERSION"; then
+				echo "PASS"
+			else
+				echo "INVALID (contains characters that are not allowed)"
+			fi
 		else
 			echo "NOT SET"
 			pkg_lint_error=true

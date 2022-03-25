@@ -2,8 +2,6 @@
 ##
 ##  Script for bumping package revision.
 ##
-##  Copyright 2020 Leonid Pliushch <leonid.pliushch@gmail.com>
-##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
 ##  you may not use this file except in compliance with the License.
 ##  You may obtain a copy of the License at
@@ -66,7 +64,7 @@ for package in "${@}"; do
 		echo "You are about to commit these changes:"
 		echo
 		echo "--------------------"
-		git diff --patch "${buildsh_path}"
+		git --no-pager diff --patch "${buildsh_path}"
 		echo "--------------------"
 		echo
 		echo "${package}: bump revision"

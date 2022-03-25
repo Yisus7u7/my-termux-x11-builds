@@ -1,36 +1,19 @@
-TERMUX_PKG_HOMEPAGE=https://github.com/desktop-app/qt5ct
-TERMUX_PKG_DESCRIPTION="This program allows users to configure Qt5 settings (theme, font, icons, etc.) under DE/WM without Qt integration"
-TERMUX_PKG_LICENSE="GPL-3.0"
-TERMUX_PKG_MAINTAINER="Yisus7u7 <jesuspixel5@gmail.com>"
-TERMUX_PKG_VERSION=1.1
-TERMUX_PKG_SRCURL=https://github.com/desktop-app/qt5ct/archive/refs/heads/master.zip
-TERMUX_PKG_SHA256=59c8889189808cfcd42cf49bea42589c82a45e462029bfc7c17824d955f75db1
-TERMUX_PKG_DEPENDS="qt5-qtbase, qt5-qtsvg, qt5-qtx11extras, libx11"
+TERMUX_PKG_HOMEPAGE=https://sourceforge.net/projects/qt5ct
+TERMUX_PKG_DESCRIPTION="Qt5 Configuration Tool"
+TERMUX_PKG_LICENSE="BSD 2-Clause"
+TERMUX_PKG_MAINTAINER="Simeon Huang <symeon@librehat.com>"
+TERMUX_PKG_VERSION=1.3
+TERMUX_PKG_REVISION=1
+TERMUX_PKG_SRCURL="https://downloads.sf.net/qt5ct/qt5ct-${TERMUX_PKG_VERSION}.tar.bz2"
+TERMUX_PKG_SHA256=dd443b14e590aff76a16e1316d56e688882e3248c470df4f71bc952569f3c3bc
+TERMUX_PKG_DEPENDS="qt5-qtbase, qt5-qtsvg"
 TERMUX_PKG_BUILD_DEPENDS="qt5-qtbase-cross-tools, qt5-qttools-cross-tools"
 TERMUX_PKG_BUILD_IN_SRC=true
+TERMUX_PKG_NO_STATICSPLIT=true
 
-termux_step_pre_configure(){
-	mkdir -p ${TERMUX_PREFIX}/libexec/qt/platformthemes
-	mkdir -p ${TERMUX_PREFIX}/libexec/qt/styles
-	mkdir -p ${TERMUX_PREFIX}/share/applications
-	mkdir -p ${TERMUX_PREFIX}/share/qt5ct/colors
-	mkdir -p ${TERMUX_PREFIX}/share/qt5ct/qss
-	}
-	
-termux_step_configure(){
+termux_step_configure () {
     "${TERMUX_PREFIX}/opt/qt/cross/bin/qmake" \
-        -spec "${TERMUX_PREFIX}/lib/qt/mkspecs/termux-cross"
-	}
-	
-termux_step_make(){
-	make
-	}
-	
-termux_step_make_install(){
-	cp -rf ./src/qt5ct-qtplugin/libqt5ct.so ${TERMUX_PREFIX}/libexec/qt/platformthemes/libqt5ct.so
-	cp -rr ./src/qt5ct-style/libqt5ct-style.so ${TERMUX_PREFIX}/libexec/qt/styles/libqt5ct-style.so
-	cp -rf ./src/qt5ct/qt5ct ${TERMUX_PREFIX}/bin/qt5ct
-	cp -rf ./src/qt5ct/qt5ct.desktop ${TERMUX_PREFIX}/share/applications/qt5ct.desktop
-	cp -rf ./qss/* ${TERMUX_PREFIX}/share/qt5ct/qss/
-	cp -rf ./colors/* ${TERMUX_PREFIX}/share/qt5ct/colors/
-	}
+        -spec "${TERMUX_PREFIX}/lib/qt/mkspecs/termux-cross" \
+        PREFIX="${TERMUX_PREFIX}"
+}
+

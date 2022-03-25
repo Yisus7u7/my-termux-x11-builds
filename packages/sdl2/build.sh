@@ -1,13 +1,14 @@
 TERMUX_PKG_HOMEPAGE=https://www.libsdl.org
 TERMUX_PKG_DESCRIPTION="A library for portable low-level access to a video framebuffer, audio output, mouse, and keyboard (version 2)"
-TERMUX_PKG_LICENSE="MIT"
-TERMUX_PKG_LICENSE_FILE="COPYING.txt"
+TERMUX_PKG_LICENSE="ZLIB"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION=2.0.10
-TERMUX_PKG_REVISION=24
+TERMUX_PKG_VERSION=2.0.20
+TERMUX_PKG_REVISION=2
 TERMUX_PKG_SRCURL=https://www.libsdl.org/release/SDL2-${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=b4656c13a1f0d0023ae2f4a9cf08ec92fffb464e0f24238337784159b8b91d57
+TERMUX_PKG_SHA256=c56aba1d7b5b0e7e999e4a7698c70b63a3394ff9704b5f6e1c57e0c16f04dd06
 TERMUX_PKG_DEPENDS="libandroid-glob, libflac, libogg, libsndfile, libvorbis, libx11, libxau, libxcb, libxcursor, libxdmcp, libxext, libxfixes, libxi, libxinerama, libxrandr, libxrender, libxss, libxxf86vm, pulseaudio"
+TERMUX_PKG_BUILD_DEPENDS="mesa"
+TERMUX_PKG_RECOMMENDS="mesa"
 TERMUX_PKG_CONFLICTS="libsdl2"
 TERMUX_PKG_REPLACES="libsdl2"
 
@@ -21,7 +22,6 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 --disable-alsa
 --disable-esd
 --disable-video-wayland
---disable-video-mir
 --disable-video-rpi
 --enable-video-x11-xcursor
 --enable-video-x11-xinerama
@@ -33,7 +33,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 --disable-video-vivante
 --disable-video-cocoa
 --disable-render-metal
---disable-video-opengl
+--enable-video-opengl
 --disable-video-opengles
 --disable-video-opengles2
 --disable-video-vulkan
@@ -42,10 +42,26 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 --disable-ime
 --disable-ibus
 --disable-fcitx
---disable-input-tslib
 --enable-pthreads
 --disable-pthread-sem
 --disable-directx
---disable-sdl-dlopen
 --disable-render-d3d
 "
+
+termux_step_pre_configure() {
+	rm -rf "$TERMUX_PKG_SRCDIR"/Xcode-iOS
+	find "$TERMUX_PKG_SRCDIR" -type f | \
+		xargs -n 1 sed -i \
+		-e 's/\([^A-Za-z0-9_]__ANDROID\)\(__[^A-Za-z0-9_]\)/\1_NO_TERMUX\2/g' \
+		-e 's/\([^A-Za-z0-9_]__ANDROID\)__$/\1_NO_TERMUX__/g'
+}
+
+termux_step_post_massage() {
+	cd ${TERMUX_PKG_MASSAGEDIR}/${TERMUX_PREFIX}/lib || exit 1
+	if [ ! -e "./libSDL2.so" ]; then
+		ln -sf libSDL2-2.0.so libSDL2.so
+	fi
+	if [ ! -e "./libSDL2-2.0.so.0" ]; then
+		ln -sf libSDL2-2.0.so libSDL2-2.0.so.0
+	fi
+}
